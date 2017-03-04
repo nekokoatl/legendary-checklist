@@ -2,9 +2,9 @@ import Foundation
 import UIKit
 
 protocol ItemDetailViewControllerDelegate: class {
-    func itemDetailViewControllerDidCancel(controller: ItemDetailViewController)
-    func itemDetailViewController(controller: ItemDetailViewController, didFinishAddingItem item: ChecklistItem)
-    func itemDetailViewController(controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem)
+    func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAddingItem item: ChecklistItem)
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem)
 }
 
 class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
@@ -33,11 +33,11 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     
     var itemToEdit: ChecklistItem?
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         textField.becomeFirstResponder()
     }
@@ -48,15 +48,15 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         if let item = itemToEdit {
         title = "Edit item"
         textField.text = item.text
-        doneBarButton.enabled = true
+        doneBarButton.isEnabled = true
         }
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    func textField(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange,
                    replasementString string: String) -> Bool {
-        let oldText: NSString = textField.text!
-        let newText: NSString = oldText.stringByReplacingCharactersInRange(range, withString: string)
-        doneBarButton.enabled = (newText.length > 0)
+        let oldText: NSString = textField.text! as NSString
+        let newText: NSString = oldText.replacingCharacters(in: range, with: string) as NSString
+        doneBarButton.isEnabled = (newText.length > 0)
 
         return true
     }
